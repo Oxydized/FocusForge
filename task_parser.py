@@ -60,13 +60,32 @@ def extrac_tasks(brain_dump):
         due_date = extract_due_date(chunk)
         title = clean_task_title(chunk, due_date)
 
+        urgency = determine_urgency(due_date)
+
         task = {
             "title": title,
             "due_date": due_date,
-            "urgency": "normal",
+            "urgency": urgency,
             "completed": False
         }
 
         tasks.append(task)
     
     return tasks
+
+def determine_urgency(due_date):
+    """Assigns urgency based on the detected due date."""
+
+    if due_date in ["today", "tonight"]:
+        return "high"
+    
+    if due_date == "tomorrow":
+        return "medium"
+    
+    if due_date in ["next week"]:
+        return "low"
+    
+    if due_date:
+        return "medium"
+    
+    return "normal"

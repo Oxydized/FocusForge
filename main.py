@@ -4,7 +4,7 @@ def main():
     print("Welcome to FocusForge")
     print("Brain dump your tasks below.\n")
 
-    brain_dump = input("What do you need to do?")
+    brain_dump = input("What do you need to do? ")
 
     tasks = extrac_tasks(brain_dump)
 
