@@ -1,4 +1,5 @@
 import re
+import uuid
 
 DATE_KEYWORDS = [
     "today",
@@ -68,6 +69,7 @@ def extract_tasks(brain_dump):
         urgency = determine_urgency(due_date)
 
         task = {
+            "id": str(uuid.uuid4()),
             "title": title,
             "due_date": due_date,
             "urgency": urgency,
