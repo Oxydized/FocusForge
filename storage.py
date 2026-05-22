@@ -36,3 +36,15 @@ def mark_task_completed(task_id):
     save_tasks(tasks)
     
     return task_found
+
+def get_incomplete_tasks():
+    return [task for task in load_tasks() if not task["completed"]]
+
+def get_completed_tasks():
+    return [task for task in load_tasks() if task["completed"]]
+
+def get_high_urgency_tasks():
+    return[
+        task for task in load_tasks()
+        if task["urgency"] == "high" and not task["completed"]
+    ]

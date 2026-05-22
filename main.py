@@ -1,5 +1,13 @@
 from task_parser import extract_tasks
-from storage import save_tasks, load_tasks, mark_task_completed
+from storage import (
+    save_tasks,
+    load_tasks,
+    mark_task_completed,
+    get_incomplete_tasks,
+    get_completed_tasks,
+    get_high_urgency_tasks
+)
+
 
 def main():
     print("Welcome to FocusForge")
@@ -48,6 +56,42 @@ def main():
             print("Task marked as completed.")
         else:
             print("No matching task ID found.")
+
+    print("\n=== HIGH PRIORITY TASKS ===")
+
+    high_priority_tasks = get_high_urgency_tasks()
+
+    if high_priority_tasks:
+        for task in high_priority_tasks:
+            print(f"- {task['title']}")
+    else:
+        print("No high priority tasks.")
+
+    print("\n=== ACTIVE TASKS ===")
+
+    active_tasks = get_incomplete_tasks()
+
+    if active_tasks:
+        for task in active_tasks:
+            due_date = task["due_date"] if task["due_date"] else "No due date"
+
+            print(
+                f"- {task['title']} | "
+                f"Due: {due_date} | "
+                f"Urgency: {task['urgency']}"
+            )
+    else:
+        print("No active tasks.")
+
+    print("\n=== COMPLETED TASKS ===")
+
+    completed_tasks = get_completed_tasks()
+
+    if completed_tasks:
+        for task in completed_tasks:
+            print(f"- {task['title']}")
+    else:
+        print("No copmpleted tasks.")
 
 if __name__ == "__main__":
     main()

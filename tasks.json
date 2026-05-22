@@ -1,37 +1,30 @@
 [
     {
-        "id": "c2d25c7d-5620-49e4-b5c8-306b19eb2d96",
-        "title": "Finish my resume",
-        "due_date": "friday",
-        "urgency": "medium",
-        "completed": true
-    },
-    {
-        "id": "11223096-2861-430d-b96b-84ff657f12eb",
+        "id": "50d83ed8-0a2d-4d97-b9c2-db91674bcf0e",
         "title": "Clean the kitchen",
         "due_date": "tonight",
         "urgency": "high",
-        "completed": true
+        "completed": false
     },
     {
-        "id": "634fde25-d60e-4068-a6d1-a156242c5bbd",
-        "title": "Call mom",
-        "due_date": "tomorrow",
+        "id": "157a7583-58eb-4f55-9ad9-007de3f62644",
+        "title": "Finish my resume",
+        "due_date": "friday",
         "urgency": "medium",
         "completed": false
     },
     {
-        "id": "06801a6e-2c2a-4f28-b14d-32454729ab4a",
-        "title": "Study python",
-        "due_date": "next week",
-        "urgency": "low",
-        "completed": false
+        "id": "08898eae-de21-4a42-9c52-518071212997",
+        "title": "Call mom",
+        "due_date": "tomorrow",
+        "urgency": "medium",
+        "completed": true
     },
     {
-        "id": "0b42be78-850b-447a-8fae-c2648eb74f75",
-        "title": "And schedule a dentist appointment.",
-        "due_date": null,
-        "urgency": "normal",
+        "id": "4e14be63-eb3f-429a-a8ab-7d831d9b721c",
+        "title": "And study python.",
+        "due_date": "next week",
+        "urgency": "low",
         "completed": false
     }
 ]
