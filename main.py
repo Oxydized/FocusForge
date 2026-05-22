@@ -1,97 +1,61 @@
+from fastapi import FastAPI
+from pydantic import BaseModel
+
 from task_parser import extract_tasks
 from storage import (
-    save_tasks,
     load_tasks,
+    save_tasks,
     mark_task_completed,
     get_incomplete_tasks,
     get_completed_tasks,
-    get_high_urgency_tasks
+    get_high_urgency_tasks,
 )
 
+app = FastAPI()
 
-def main():
-    print("Welcome to FocusForge")
-    print("Brain dump your tasks below.\n")
+class BrainDumpRequest(BaseModel):
+    text: str
+
+@app.get("/")
+def root():
+    return {"message": "FocusForge API running"}
+
+@app.post("/tasks/parse")
+def parse_tasks(request: BrainDumpRequest):
+    new_tasks = extract_tasks(request.text)
 
     existing_tasks = load_tasks()
-
-    brain_dump = input("What do you need to do? ")
-
-    new_tasks = extract_tasks(brain_dump)
-
     all_tasks = existing_tasks + new_tasks
 
     save_tasks(all_tasks)
 
-    print("\nParsed Tasks:")
+    return {
+        "message": f"Saved {len(new_tasks)} new task(s).",
+        "tasks": new_tasks,
+        "total_tasks": len(all_tasks),
+    }
 
-    if not new_tasks:
-        print("No tasks found.")
-        return
+@app.get("/tasks")
+def get_tasks():
+    return {"tasks": load_tasks()}
+
+@app.get("/tasks/active")
+def get_active_tasks():
+    return {"tasks": get_incomplete_tasks()}
+
+@app.get("/tasks/completed")
+def get_completed_tasks_route():
+    return {"tasks": get_completed_tasks()}
+
+@app.get("/tasks/high-priority")
+def get_high_priority_tasks():
+    return {"tasks": get_high_urgency_tasks()}
+
+@app.patch("/tasks/{task_id}/complete")
+def complete_tasks(task_id: str):
+    task_found = mark_task_completed(task_id)
+
+    if task_found:
+        return {"message": "Task marked as completed."}
     
-    for index, task in enumerate(new_tasks, start=1):
-        due_date = task["due_date"] if task["due_date"] else "No due date"
-
-        print(
-            f"{index}. "
-            f"ID: {task['id'][:8]} | "
-            f"{task['title']} | "
-            f"Due: {due_date} | "
-            f"Urgency: {task['urgency']} | "
-            f"Completed: {task['completed']}"
-        )
-
-    print(f"\nSaved {len(new_tasks)} new task(s).")
-    print(f"Total saved tasks: {len(all_tasks)}")
-
-    while True:
-        complete_task = input("\nEnter task ID to mark complete (or press Enter to stop): ").strip()
-
-        if not complete_task:
-            break
-
-        task_found = mark_task_completed(complete_task)
-
-        if task_found:
-            print("Task marked as completed.")
-        else:
-            print("No matching task ID found.")
-
-    print("\n=== HIGH PRIORITY TASKS ===")
-
-    high_priority_tasks = get_high_urgency_tasks()
-
-    if high_priority_tasks:
-        for task in high_priority_tasks:
-            print(f"- {task['title']}")
-    else:
-        print("No high priority tasks.")
-
-    print("\n=== ACTIVE TASKS ===")
-
-    active_tasks = get_incomplete_tasks()
-
-    if active_tasks:
-        for task in active_tasks:
-            due_date = task["due_date"] if task["due_date"] else "No due date"
-
-            print(
-                f"- {task['title']} | "
-                f"Due: {due_date} | "
-                f"Urgency: {task['urgency']}"
-            )
-    else:
-        print("No active tasks.")
-
-    print("\n=== COMPLETED TASKS ===")
-
-    completed_tasks = get_completed_tasks()
-
-    if completed_tasks:
-        for task in completed_tasks:
-            print(f"- {task['title']}")
-    else:
-        print("No copmpleted tasks.")
-
-if __name__ == "__main__":
-    main()
+    return {"message": "No matching task ID found."}
