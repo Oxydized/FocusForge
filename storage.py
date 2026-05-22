@@ -15,5 +15,24 @@ def load_tasks():
     if not TASKS_FILE.exists():
         return[]
     
-    with open(TASKS_FILE, "r") as file:
-        return json.load(file)
+    try:
+        with open(TASKS_FILE, "r") as file:
+            return json.load(file)
+    except json.JSONDecodeError:
+        return[]
+    
+def mark_task_completed(task_id):
+    """Marks a task as completed by ID."""
+
+    tasks = load_tasks()
+    task_found = False
+
+    for task in tasks:
+        if "id" in task and task["id"].startswith(task_id):
+            task["completed"] = True
+            task_found = True
+            break
+
+    save_tasks(tasks)
+    
+    return task_found

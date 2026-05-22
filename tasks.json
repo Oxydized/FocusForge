@@ -1,8 +1,37 @@
 [
     {
-        "title": "Study",
+        "id": "c2d25c7d-5620-49e4-b5c8-306b19eb2d96",
+        "title": "Finish my resume",
+        "due_date": "friday",
+        "urgency": "medium",
+        "completed": true
+    },
+    {
+        "id": "11223096-2861-430d-b96b-84ff657f12eb",
+        "title": "Clean the kitchen",
+        "due_date": "tonight",
+        "urgency": "high",
+        "completed": true
+    },
+    {
+        "id": "634fde25-d60e-4068-a6d1-a156242c5bbd",
+        "title": "Call mom",
         "due_date": "tomorrow",
         "urgency": "medium",
+        "completed": false
+    },
+    {
+        "id": "06801a6e-2c2a-4f28-b14d-32454729ab4a",
+        "title": "Study python",
+        "due_date": "next week",
+        "urgency": "low",
+        "completed": false
+    },
+    {
+        "id": "0b42be78-850b-447a-8fae-c2648eb74f75",
+        "title": "And schedule a dentist appointment.",
+        "due_date": null,
+        "urgency": "normal",
         "completed": false
     }
 ]
