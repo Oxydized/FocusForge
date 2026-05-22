@@ -40,11 +40,16 @@ def clean_task_title(text, due_date):
 
     return cleaned.capitalize()
 
-def extrac_tasks(brain_dump):
+def extract_tasks(brain_dump):
     """Converts a messy brain dump into structured task dictionaries."""
+    normalized_text = brain_dump
 
-    # Turn common separators into commas
+    # Normalize common separators
     normalized_text = brain_dump.replace(" and ", ",")
+    normalized_text = brain_dump.replace(" . ", ",")
+    normalized_text = brain_dump.replace(" ; ", ",")
+    normalized_text = brain_dump.replace("\n", ",")
+
 
     # Split the brain dump into task chunks
     task_chunks = normalized_text.split(",")
