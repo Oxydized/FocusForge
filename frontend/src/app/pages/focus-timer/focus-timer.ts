@@ -8,12 +8,12 @@ import { Component, signal, computed } from '@angular/core';
 })
 export class FocusTimer {
   hours = signal(0);
-  minutes = signal(25);
+  minutes = signal(1);
   seconds = signal(0);
   holdInterval: any;
 
-  remainingSeconds = signal(25 * 60);
-  initialTotalSeconds = signal(25 * 60);
+  remainingSeconds = signal(1 * 60);
+  initialTotalSeconds = signal(1 * 60);
   sessionComplete = signal(false);
 
   isRunning = signal(false);
@@ -97,6 +97,7 @@ export class FocusTimer {
         this.remainingSeconds.set(0);
         this.sessionComplete.set(true);
         this.pauseTimer();
+        this.playCompletionSound();
       }
     }, 1000);
   }
@@ -165,4 +166,28 @@ export class FocusTimer {
 
     return 'blue';
   });
+
+  playCompletionSound(): void {
+    const audioContext = new AudioContext();
+
+    audioContext.resume().then(() => {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.frequency.value = 880;
+      oscillator.type = 'sine';
+
+      gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + 0.5
+      );
+
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.5);
+    });
+  }
 }
