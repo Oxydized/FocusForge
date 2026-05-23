@@ -28,4 +28,11 @@ export class TaskService {
       { text }
     );
   }
+  
+  completeTask(taskId: string): Observable<{ message: string }> {
+    return this.http.patch<{ message: string}>(
+      `${this.apiURL}/tasks/${taskId}/complete`,
+      {}
+    )
+  }
 }

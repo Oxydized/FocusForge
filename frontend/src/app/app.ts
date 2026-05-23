@@ -1,5 +1,6 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { TaskService, Task } from './services/task';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { TaskService, Task } from './services/task';
 export class App implements OnInit {
   tasks = signal<Task[]>([]);
   brainDump = signal('');
+  selectedTaskId = signal('');
 
   constructor(private taskService: TaskService) {}
 
@@ -44,6 +46,24 @@ export class App implements OnInit {
       },
       error: (error) => {
         console.error('Error parsing tasks:', error);
+      }
+    });
+  }
+
+  completeSelectedTask(): void {
+    const taskId = this.selectedTaskId();
+
+    if (!taskId) {
+      return;
+    }
+
+    this.taskService.completeTask(taskId).subscribe({
+      next: () =>  {
+        this.selectedTaskId.set('');
+        this.loadTasks();
+      },
+      error: (error) => {
+        console.error('Error completing task:', error); 
       }
     });
   }

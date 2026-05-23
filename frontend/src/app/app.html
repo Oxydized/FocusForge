@@ -21,6 +21,16 @@
 <ul>
   @for (task of tasks(); track task.id) {
     <li>
+      @if (!task.completed) {
+        <input
+          type="radio"
+          name="selectedTask"
+          [value]="task.id"
+          [checked]="selectedTaskId() === task.id"
+          (change)="selectedTaskId.set(task.id)"
+        />
+      }
+
       {{ task.title }} |
       Due: {{ task.due_date || 'No due date' }} |
       Urgency: {{ task.urgency }} |
@@ -28,3 +38,10 @@
     </li>
   }
 </ul>
+
+<button
+  (click)="completeSelectedTask()"
+  [disabled]="!selectedTaskId()"
+>
+  Complete Selected Task
+</button>

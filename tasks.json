@@ -1,58 +1,30 @@
 [
     {
-        "id": "50d83ed8-0a2d-4d97-b9c2-db91674bcf0e",
+        "id": "44d47364-0440-4315-ae22-6bb463b700f1",
         "title": "Clean the kitchen",
         "due_date": "tonight",
         "urgency": "high",
-        "completed": false
-    },
-    {
-        "id": "157a7583-58eb-4f55-9ad9-007de3f62644",
-        "title": "Finish my resume",
-        "due_date": "friday",
-        "urgency": "medium",
-        "completed": false
-    },
-    {
-        "id": "08898eae-de21-4a42-9c52-518071212997",
-        "title": "Call mom",
-        "due_date": "tomorrow",
-        "urgency": "medium",
         "completed": true
     },
     {
-        "id": "4e14be63-eb3f-429a-a8ab-7d831d9b721c",
-        "title": "And study python.",
-        "due_date": "next week",
-        "urgency": "low",
-        "completed": false
-    },
-    {
-        "id": "3ca99ccb-8263-4a96-8c3c-2cbf6d4531b5",
-        "title": "Finish my resume friday and study python",
-        "due_date": "tonight",
-        "urgency": "high",
-        "completed": false
-    },
-    {
-        "id": "342d4347-cf3f-4d77-a2cf-8b6f3aa02cf4",
+        "id": "eb617317-cc9a-4602-b705-915ba6cbe5be",
         "title": "Finish my resume",
         "due_date": "friday",
         "urgency": "medium",
         "completed": false
     },
     {
-        "id": "a6bc9bdb-27af-4499-96ce-ab0c47b14eb0",
-        "title": "Study python",
-        "due_date": "tonight",
-        "urgency": "high",
+        "id": "caef3357-7838-44fa-b7b5-15afac226911",
+        "title": "Call mom",
+        "due_date": "tomorrow",
+        "urgency": "medium",
         "completed": false
     },
     {
-        "id": "e85fb8db-adb2-41bf-8018-6e4cd86b5449",
-        "title": "And call mom.",
-        "due_date": "tomorrow",
-        "urgency": "medium",
+        "id": "4acc08be-d956-4f58-a17d-b003994a0dcc",
+        "title": "And study python.",
+        "due_date": "next week",
+        "urgency": "low",
         "completed": false
     }
 ]
