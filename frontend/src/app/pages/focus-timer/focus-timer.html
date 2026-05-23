@@ -26,6 +26,10 @@
   </circle>
 </svg>
 
+@if (sessionComplete()) {
+  <h3>Focus Session Complete!</h3>
+}
+
 <p>Progress Remaining: {{ progressPercent().toFixed(0) }}%</p>
 
 <div>

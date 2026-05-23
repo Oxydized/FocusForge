@@ -14,6 +14,7 @@ export class FocusTimer {
 
   remainingSeconds = signal(25 * 60);
   initialTotalSeconds = signal(25 * 60);
+  sessionComplete = signal(false);
 
   isRunning = signal(false);
   timerInterval: any;
@@ -86,12 +87,15 @@ export class FocusTimer {
       return;
     }
 
+    this.sessionComplete.set(false);
     this.isRunning.set(true);
 
     this.timerInterval = setInterval(() => {
-      if (this.remainingSeconds() > 0) {
+      if (this.remainingSeconds() > 1) {
         this.remainingSeconds.update(value => value - 1);
       } else {
+        this.remainingSeconds.set(0);
+        this.sessionComplete.set(true);
         this.pauseTimer();
       }
     }, 1000);
@@ -104,6 +108,7 @@ export class FocusTimer {
 
   resetTimer(): void {
     this.pauseTimer();
+    this.sessionComplete.set(false);
     this.syncInputToTimer();
   }
 
