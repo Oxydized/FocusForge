@@ -8,6 +8,10 @@ export const routes: Routes = [
     component: Tasks
   },
   {
+    path: 'timer',
+    component: FocusTimer
+  },
+  {
     path: '',
     redirectTo: 'tasks',
     pathMatch: 'full'

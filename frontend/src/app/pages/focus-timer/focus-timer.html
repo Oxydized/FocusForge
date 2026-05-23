@@ -1,1 +1,101 @@
-<p>focus-timer works!</p>
+<h2>Focus Timer</h2>
+
+<h3>{{ formattedTime() }}</h3>
+
+<svg width="220" height="220" viewBox="0 0 220 220">
+  <circle
+    cx="110"
+    cy="110"
+    r="90"
+    stroke="lightgray"
+    stroke-width="20"
+    fill="none">
+  </circle>
+
+  <circle
+    cx="110"
+    cy="110"
+    r="90"
+    stroke="blue"
+    stroke-width="20"
+    fill="none"
+    stroke-linecap="round"
+    [attr.stroke-dasharray]="565"
+    [attr.stroke-dashoffset]="565 - (565 * progressPercent() / 100)"
+    transform="rotate(-90 110 110)">
+  </circle>
+</svg>
+
+<p>Progress Remaining: {{ progressPercent().toFixed(0) }}%</p>
+
+<div>
+  <h4>Hours</h4>
+
+  <button
+    (mousedown)="holdDecreaseHours()"
+    (mouseup)="stopHold()"
+    (mouseleave)="stopHold()"
+  >
+    -
+  </button>
+
+  <span>{{ hours().toString().padStart(2, '0') }}</span>
+
+  <button
+    (mousedown)="holdIncreaseHours()"
+    (mouseup)="stopHold()"
+    (mouseleave)="stopHold()"
+  >
+    +
+  </button>
+</div>
+
+<div>
+  <h4>Minutes</h4>
+
+  <button
+    (mousedown)="holdDecreaseMinutes()"
+    (mouseup)="stopHold()"
+    (mouseleave)="stopHold()"
+  >
+    -
+  </button>
+
+  <span>{{ minutes().toString().padStart(2, '0') }}</span>
+
+  <button
+    (mousedown)="holdIncreaseMinutes()"
+    (mouseup)="stopHold()"
+    (mouseleave)="stopHold()"
+  >
+    +
+  </button>
+</div>
+
+<div>
+  <h4>Seconds</h4>
+
+  <button
+    (mousedown)="holdDecreaseSeconds()"
+    (mouseup)="stopHold()"
+    (mouseleave)="stopHold()"
+  >
+    -
+  </button>
+
+  <span>{{ seconds().toString().padStart(2, '0') }}</span>
+
+  <button
+    (mousedown)="holdIncreaseSeconds()"
+    (mouseup)="stopHold()"
+    (mouseleave)="stopHold()"
+  >
+    +
+  </button>
+</div>
+
+<br />
+
+<button (click)="startTimer()">Start</button>
+<button (click)="pauseTimer()">Pause</button>
+<button (click)="resetTimer()">Reset</button>
