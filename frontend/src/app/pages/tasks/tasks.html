@@ -1,0 +1,70 @@
+<h1>FocusForge</h1>
+
+<h2>Brain Dump</h2>
+
+<button (click)="startVoiceRecognition()">
+  Start Voice Capture
+</button>
+
+<textarea
+  rows="4"
+  cols="60"
+  placeholder="Example: I need to finish my resume Friday and study Python tonight"
+  [value]="brainDump()"
+  (input)="brainDump.set($any($event.target).value)">
+</textarea>
+
+<br />
+
+<button (click)="submitBrainDump()">Add Tasks</button>
+
+<h2>Saved Tasks</h2>
+
+<p>Task count: {{ tasks().length }}</p>
+
+<h2>Active Tasks</h2>
+
+<p>Active task count: {{ activeTasks().length }}</p>
+
+<ul>
+  @for (task of activeTasks(); track task.id) {
+    <li>
+      <input
+        type="radio"
+        name="selectedTask"
+        [value]="task.id"
+        [checked]="selectedTaskId() === task.id"
+        (change)="selectedTaskId.set(task.id)"
+      />
+
+      {{ task.title }} |
+      Due: {{ task.due_date || 'No due date' }} |
+      Urgency: {{ task.urgency }}
+    </li>
+  }
+</ul>
+
+<button
+  (click)="completeSelectedTask()"
+  [disabled]="!selectedTaskId()"
+>
+  Complete Selected Task
+</button>
+
+<h2>Task History</h2>
+
+<p>Completed task count: {{ completedTasks().length }}</p>
+
+<ul>
+  @for (task of completedTasks(); track task.id) {
+    <li>
+      {{ task.title }} |
+      Due: {{ task.due_date || 'No due date' }} |
+      Urgency: {{ task.urgency }}
+
+      <button (click)="restoreTask(task.id)">
+        Restore
+      </button>
+    </li>
+  }
+</ul>
