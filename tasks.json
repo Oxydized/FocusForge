@@ -1,30 +1,23 @@
 [
     {
-        "id": "44d47364-0440-4315-ae22-6bb463b700f1",
+        "id": "0a55d35e-a38b-4dbd-9d62-df1a05849c1c",
         "title": "Clean the kitchen",
         "due_date": "tonight",
         "urgency": "high",
         "completed": true
     },
     {
-        "id": "eb617317-cc9a-4602-b705-915ba6cbe5be",
+        "id": "c4662a68-1b59-4897-8c35-0ce79b73b71e",
         "title": "Finish my resume",
         "due_date": "friday",
         "urgency": "medium",
         "completed": false
     },
     {
-        "id": "caef3357-7838-44fa-b7b5-15afac226911",
-        "title": "Call mom",
+        "id": "fa5674b0-28f3-417a-8cf3-72dec18ff1d7",
+        "title": "And call mom.",
         "due_date": "tomorrow",
         "urgency": "medium",
-        "completed": false
-    },
-    {
-        "id": "4acc08be-d956-4f58-a17d-b003994a0dcc",
-        "title": "And study python.",
-        "due_date": "next week",
-        "urgency": "low",
         "completed": false
     }
 ]

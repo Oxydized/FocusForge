@@ -18,23 +18,24 @@
 
 <p>Task count: {{ tasks().length }}</p>
 
+<h2>Active Tasks</h2>
+
+<p>Active task count: {{ activeTasks().length }}</p>
+
 <ul>
-  @for (task of tasks(); track task.id) {
+  @for (task of activeTasks(); track task.id) {
     <li>
-      @if (!task.completed) {
-        <input
-          type="radio"
-          name="selectedTask"
-          [value]="task.id"
-          [checked]="selectedTaskId() === task.id"
-          (change)="selectedTaskId.set(task.id)"
-        />
-      }
+      <input
+        type="radio"
+        name="selectedTask"
+        [value]="task.id"
+        [checked]="selectedTaskId() === task.id"
+        (change)="selectedTaskId.set(task.id)"
+      />
 
       {{ task.title }} |
       Due: {{ task.due_date || 'No due date' }} |
-      Urgency: {{ task.urgency }} |
-      Completed: {{ task.completed }}
+      Urgency: {{ task.urgency }}
     </li>
   }
 </ul>
@@ -45,3 +46,18 @@
 >
   Complete Selected Task
 </button>
+
+<h2>Task History</h2>
+
+<p>Completed task count: {{ completedTasks().length }}</p>
+
+<ul>
+  @for (task of completedTasks(); track task.id) {
+    <li>
+      {{ task.title }} |
+      Due: {{ task.due_date || 'No due date' }} |
+      Urgency: {{ task.urgency }} |
+      Completed: {{ task.completed }}
+    </li>
+  }
+</ul>

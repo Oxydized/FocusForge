@@ -1,6 +1,7 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal, OnInit, computed } from '@angular/core';
 import { TaskService, Task } from './services/task';
 import { Observable } from 'rxjs';
+
 
 
 @Component({
@@ -67,4 +68,12 @@ export class App implements OnInit {
       }
     });
   }
+
+  activeTasks = computed(() => 
+    this.tasks().filter(task => !task.completed)
+  );
+
+  completedTasks = computed(() => 
+    this.tasks().filter(task => task.completed)
+  );
 }
