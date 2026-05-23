@@ -1,7 +1,5 @@
-import { Component, signal, OnInit, computed } from '@angular/core';
+import { Component, signal, OnInit, computed, NgZone } from '@angular/core';
 import { TaskService, Task } from './services/task';
-import { Observable } from 'rxjs';
-
 
 
 @Component({
@@ -15,8 +13,12 @@ export class App implements OnInit {
   tasks = signal<Task[]>([]);
   brainDump = signal('');
   selectedTaskId = signal('');
+  recognition: any;
 
-  constructor(private taskService: TaskService) {}
+  constructor(
+    private taskService: TaskService,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
       this.loadTasks();
@@ -31,6 +33,39 @@ export class App implements OnInit {
         console.error('Error loading tasks:', error);
       }
     });
+  }
+
+  startVoiceRecognition(): void {
+    const SpeechRecognition = 
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      alert('Speech recognition is not supported in this browser.')
+      return;
+    }
+
+    this.recognition = new SpeechRecognition();
+
+    this.recognition.lang = 'en-US';
+    this.recognition.interimResults = false;
+    this.recognition.maxAlternatives = 1;
+
+    this.recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      
+      console.log('Transcript:', transcript);
+
+      this.ngZone.run(() => {
+        this.brainDump.set(transcript);
+      });
+    };
+
+    this.recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+    };
+
+    this.recognition.start();
   }
 
   submitBrainDump(): void {

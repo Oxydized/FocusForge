@@ -43,14 +43,24 @@ def clean_task_title(text, due_date):
 
 def extract_tasks(brain_dump):
     """Converts a messy brain dump into structured task dictionaries."""
-    normalized_text = brain_dump
+    
+    normalized_text = brain_dump.lower()
+
+    # Remove common opening phrase once at the beginning
+    normalized_text = re.sub(r"^(i need to|i have to|need to|have to)\s+", "", normalized_text)
 
     # Normalize common separators
-    normalized_text = brain_dump.replace(" and ", ",")
-    normalized_text = brain_dump.replace(" . ", ",")
-    normalized_text = brain_dump.replace(" ; ", ",")
-    normalized_text = brain_dump.replace("\n", ",")
+    normalized_text = normalized_text.replace(" and ", ",")
+    normalized_text = normalized_text.replace(" . ", ",")
+    normalized_text = normalized_text.replace(" ; ", ",")
+    normalized_text = normalized_text.replace("\n", ",")
 
+    # Split on "and" when it appears to introduce a new task
+    normalized_text = re.sub(
+        r"\s+and\s+(?=(i need to|need to|have to|finish|study|start|call|clean|schedule|pay|organize|buy|email|text|review|complete)\b)",
+        ", ",
+        normalized_text
+    ) 
 
     # Split the brain dump into task chunks
     task_chunks = normalized_text.split(",")
@@ -72,7 +82,7 @@ def extract_tasks(brain_dump):
             "id": str(uuid.uuid4()),
             "title": title,
             "due_date": due_date,
-            "urgency": urgency,
+            "urgency": determine_urgency(due_date),
             "completed": False
         }
 
