@@ -76,4 +76,15 @@ export class App implements OnInit {
   completedTasks = computed(() => 
     this.tasks().filter(task => task.completed)
   );
+
+  restoreTask(taskId: string): void {
+    this.taskService.restoreTask(taskId).subscribe({
+      next: () => {
+        this.loadTasks();
+      },
+      error: (error) => {
+        console.error('Error restoring task:', error);
+      }
+    });
+  }
 }

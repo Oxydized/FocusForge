@@ -56,8 +56,11 @@
     <li>
       {{ task.title }} |
       Due: {{ task.due_date || 'No due date' }} |
-      Urgency: {{ task.urgency }} |
-      Completed: {{ task.completed }}
+      Urgency: {{ task.urgency }}
+
+      <button (click)="restoreTask(task.id)">
+        Restore
+      </button>
     </li>
   }
 </ul>

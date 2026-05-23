@@ -4,7 +4,7 @@
         "title": "Clean the kitchen",
         "due_date": "tonight",
         "urgency": "high",
-        "completed": true
+        "completed": false
     },
     {
         "id": "c4662a68-1b59-4897-8c35-0ce79b73b71e",

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
+from storage import restore_task
 from task_parser import extract_tasks
 from storage import (
     load_tasks,
@@ -69,5 +70,14 @@ def complete_tasks(task_id: str):
 
     if task_found:
         return {"message": "Task marked as completed."}
+    
+    return {"message": "No matching task ID found."}
+
+@app.patch("/tasks/{task_id}/restore")
+def restore_task_route(task_id: str):
+    task_found = restore_task(task_id)
+
+    if task_found:
+        return {"message": "Task restored successfully."}
     
     return {"message": "No matching task ID found."}

@@ -48,3 +48,19 @@ def get_high_urgency_tasks():
         task for task in load_tasks()
         if task["urgency"] == "high" and not task["completed"]
     ]
+
+def restore_task(task_id):
+    """Restores a completed task back to active."""
+
+    tasks = load_tasks()
+    task_found = False
+    
+    for task in tasks:
+        if "id" in  task and task["id"] == task_id:
+            task["completed"] = False
+            task_found = True
+            break
+
+    save_tasks(tasks)
+
+    return task_found

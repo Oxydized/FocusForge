@@ -33,6 +33,13 @@ export class TaskService {
     return this.http.patch<{ message: string}>(
       `${this.apiURL}/tasks/${taskId}/complete`,
       {}
-    )
+    );
+  }
+
+  restoreTask(taskId: string): Observable<{ message: string }> {
+    return this.http.patch<{ message: string }>(
+      `${this.apiURL}/tasks/${taskId}/restore`,
+      {}
+    );
   }
 }
