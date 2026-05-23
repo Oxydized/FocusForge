@@ -21,4 +21,11 @@ export class TaskService {
   getTasks(): Observable<{ tasks: Task[] }> {
     return this.http.get<{ tasks: Task[] }>(`${this.apiURL}/tasks`);
   }
+
+  parseTasks(text: string): Observable<{ message: string; tasks: Task[]; total_tasks: number }> {
+    return this.http.post<{ message: string; tasks: Task[]; total_tasks: number }>(
+      `${this.apiURL}/tasks/parse`,
+      { text }
+    );
+  }
 }

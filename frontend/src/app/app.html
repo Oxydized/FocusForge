@@ -1,5 +1,19 @@
 <h1>FocusForge</h1>
 
+<h2>Brain Dump</h2>
+
+<textarea
+  rows="4"
+  cols="60"
+  placeholder="Example: I need to finish my resume Friday and study Python tonight"
+  [value]="brainDump()"
+  (input)="brainDump.set($any($event.target).value)">
+</textarea>
+
+<br />
+
+<button (click)="submitBrainDump()">Add Tasks</button>
+
 <h2>Saved Tasks</h2>
 
 <p>Task count: {{ tasks().length }}</p>

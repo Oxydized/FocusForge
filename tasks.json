@@ -33,5 +33,26 @@
         "due_date": "tonight",
         "urgency": "high",
         "completed": false
+    },
+    {
+        "id": "342d4347-cf3f-4d77-a2cf-8b6f3aa02cf4",
+        "title": "Finish my resume",
+        "due_date": "friday",
+        "urgency": "medium",
+        "completed": false
+    },
+    {
+        "id": "a6bc9bdb-27af-4499-96ce-ab0c47b14eb0",
+        "title": "Study python",
+        "due_date": "tonight",
+        "urgency": "high",
+        "completed": false
+    },
+    {
+        "id": "e85fb8db-adb2-41bf-8018-6e4cd86b5449",
+        "title": "And call mom.",
+        "due_date": "tomorrow",
+        "urgency": "medium",
+        "completed": false
     }
 ]
