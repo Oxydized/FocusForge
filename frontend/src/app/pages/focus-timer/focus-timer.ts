@@ -142,4 +142,22 @@ export class FocusTimer {
   holdDecreaseSeconds(): void {
     this.startHold(() => this.decreaseSeconds());
   }
+
+  timerColor = computed(() => {
+    const progress = this.progressPercent();
+
+    if (progress <= 10) {
+      return 'red';
+    }
+
+    if (progress <= 30) {
+      return 'orange';
+    }
+
+    if (progress <= 60) {
+      return 'gold';
+    }
+
+    return 'blue';
+  });
 }
