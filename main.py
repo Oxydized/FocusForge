@@ -2,8 +2,10 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
+
 from storage import restore_task
 from task_parser import extract_tasks
+from ai_parser import extract_tasks_with_ai
 from storage import (
     load_tasks,
     save_tasks,
@@ -35,7 +37,12 @@ def root():
 
 @app.post("/tasks/parse")
 def parse_tasks(request: BrainDumpRequest):
-    new_tasks = extract_tasks(request.text)
+    ai_tasks = extract_tasks_with_ai(request.text)
+
+    if ai_tasks:
+        new_tasks = ai_tasks
+    else:
+        new_tasks = extract_tasks(request.text)
 
     existing_tasks = load_tasks()
     all_tasks = existing_tasks + new_tasks
