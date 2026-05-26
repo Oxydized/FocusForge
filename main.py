@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
 
+from ai_parser import extract_tasks_with_ai
 from storage import restore_task
 from task_parser import extract_tasks
 from ai_parser import extract_tasks_with_ai
@@ -40,8 +41,10 @@ def parse_tasks(request: BrainDumpRequest):
     ai_tasks = extract_tasks_with_ai(request.text)
 
     if ai_tasks:
+        print("Using Gemini AI parser")
         new_tasks = ai_tasks
     else:
+        print("Using fallback rule parser")
         new_tasks = extract_tasks(request.text)
 
     existing_tasks = load_tasks()

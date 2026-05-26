@@ -1,3 +1,58 @@
 [
-
+    {
+        "id": "073270ef-eb5f-42ec-bc2f-cf5a422f5e2b",
+        "title": "Finish updating resume",
+        "due_date": "Friday",
+        "urgency": "medium",
+        "completed": false
+    },
+    {
+        "id": "f18a8998-d830-4f70-82b3-146b21b33ddd",
+        "title": "Study python",
+        "due_date": "Tonight",
+        "urgency": "high",
+        "completed": false
+    },
+    {
+        "id": "27455542-032a-4b7b-88b9-7392b6e4c4b5",
+        "title": "Call mom",
+        "due_date": "Tomorrow afternoon",
+        "urgency": "medium",
+        "completed": false
+    },
+    {
+        "id": "077e4d1e-eca9-44e2-8dbc-8bc8e6e00e14",
+        "title": "Schedule dentist appointment",
+        "due_date": "Next week",
+        "urgency": "low",
+        "completed": false
+    },
+    {
+        "id": "0d519bc3-891d-432b-b582-dc2599b4b3cc",
+        "title": "Pay electric bill",
+        "due_date": "Today",
+        "urgency": "high",
+        "completed": false
+    },
+    {
+        "id": "22effbb5-267d-4826-b879-e57e2d266aa8",
+        "title": "Clean the kitchen",
+        "due_date": "Before Saturday",
+        "urgency": "medium",
+        "completed": false
+    },
+    {
+        "id": "5c7dcd4f-9c7e-4082-a604-b29c79a45029",
+        "title": "Review fastapi notes",
+        "due_date": "Tomorrow",
+        "urgency": "medium",
+        "completed": false
+    },
+    {
+        "id": "45949baf-4912-4167-9cbe-8d5be46196eb",
+        "title": "Organize desk",
+        "due_date": "This weekend",
+        "urgency": "low",
+        "completed": false
+    }
 ]
