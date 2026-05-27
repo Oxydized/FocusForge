@@ -30,11 +30,9 @@
   @for (task of activeTasks(); track task.id) {
     <li>
       <input
-        type="radio"
-        name="selectedTask"
-        [value]="task.id"
-        [checked]="selectedTaskId() === task.id"
-        (change)="selectedTaskId.set(task.id)"
+        type="checkbox"
+        [checked]="selectedActiveTaskIds().includes(task.id)"
+        (change)="toggleActiveTaskSelection(task.id)"
       />
 
       {{ task.title }} |
@@ -45,10 +43,17 @@
 </ul>
 
 <button
-  (click)="completeSelectedTask()"
-  [disabled]="!selectedTaskId()"
+  (click)="completeSelectedTasks()"
+  [disabled]="!selectedActiveTaskIds().length"
 >
-  Complete Selected Task
+  Complete Selected Tasks
+</button>
+
+<button
+  (click)="deleteSelectedActiveTasks()"
+  [disabled]="!selectedActiveTaskIds().length"
+>
+  Delete Selected Active Tasks
 </button>
 
 <h2>Task History</h2>
@@ -58,13 +63,29 @@
 <ul>
   @for (task of completedTasks(); track task.id) {
     <li>
+      <input
+        type="checkbox"
+        [checked]="selectedCompletedTaskIds().includes(task.id)"
+        (change)="toggleCompletedTaskSelection(task.id)"
+      />
+
       {{ task.title }} |
       Due: {{ task.due_date || 'No due date' }} |
       Urgency: {{ task.urgency }}
-
-      <button (click)="restoreTask(task.id)">
-        Restore
-      </button>
     </li>
   }
 </ul>
+
+<button
+  (click)="restoreSelectedTasks()"
+  [disabled]="!selectedCompletedTaskIds().length"
+>
+  Restore Selected Tasks
+</button>
+
+<button
+  (click)="deleteSelectedCompletedTasks()"
+  [disabled]="!selectedCompletedTaskIds().length"
+>
+  Delete Selected History Tasks
+</button>

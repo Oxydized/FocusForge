@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Tasks } from './pages/tasks/tasks';
+import { Tasks } from './pages/tasks/tasks.component';
 import { FocusTimer } from './pages/focus-timer/focus-timer';
 
 export const routes: Routes = [

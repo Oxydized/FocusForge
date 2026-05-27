@@ -49,18 +49,41 @@ def get_high_urgency_tasks():
         if task["urgency"] == "high" and not task["completed"]
     ]
 
-def restore_task(task_id):
+def complete_tasks(task_ids):
+    tasks = load_tasks()
+    updated_count = 0
+
+    for task in tasks:
+        if task.get("id") in task_ids:
+            task["completed"] = True
+            updated_count += 1
+
+    save_tasks(tasks)
+    return updated_count
+
+def restore_tasks(task_ids):
     """Restores a completed task back to active."""
 
     tasks = load_tasks()
-    task_found = False
+    updated_count = 0
     
     for task in tasks:
-        if "id" in  task and task["id"] == task_id:
+        if task.get("id") in task_ids:
             task["completed"] = False
-            task_found = True
-            break
+            updated_count += 1
 
     save_tasks(tasks)
+    return updated_count
 
-    return task_found
+def delete_tasks(task_ids):
+    tasks = load_tasks()
+
+    remaining_tasks = [
+        task for task in tasks
+        if task.get("id") not in task_ids
+    ]
+
+    deleted_count = len(tasks) - len(remaining_tasks)
+
+    save_tasks(remaining_tasks)
+    return deleted_count

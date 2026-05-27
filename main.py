@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 from ai_parser import extract_tasks_with_ai
-from storage import restore_task
+from storage import complete_tasks, restore_tasks, delete_tasks
 from task_parser import extract_tasks
 from ai_parser import extract_tasks_with_ai
 from storage import (
@@ -31,6 +31,9 @@ app.add_middleware(
 
 class BrainDumpRequest(BaseModel):
     text: str
+
+class TaskBatchRequest(BaseModel):
+    task_ids: list[str]
 
 @app.get("/")
 def root():
@@ -74,20 +77,17 @@ def get_completed_tasks_route():
 def get_high_priority_tasks():
     return {"tasks": get_high_urgency_tasks()}
 
-@app.patch("/tasks/{task_id}/complete")
-def complete_tasks(task_id: str):
-    task_found = mark_task_completed(task_id)
+@app.patch("/tasks/complete")
+def complete_multiple_tasks(request: TaskBatchRequest):
+    updated_count = complete_tasks(request.task_ids)
+    return {"message": f"Completed {updated_count} task(s)."}
 
-    if task_found:
-        return {"message": "Task marked as completed."}
-    
-    return {"message": "No matching task ID found."}
+@app.patch("/tasks/restore")
+def restore_multiple_tasks(request: TaskBatchRequest):
+    updated_count = restore_tasks(request.task_ids)
+    return {"message": f"Restored {updated_count} task(s)."}
 
-@app.patch("/tasks/{task_id}/restore")
-def restore_task_route(task_id: str):
-    task_found = restore_task(task_id)
-
-    if task_found:
-        return {"message": "Task restored successfully."}
-    
-    return {"message": "No matching task ID found."}
+@app.delete("/tasks")
+def delete_multiple_tasks(request: TaskBatchRequest):
+    deleted_count = delete_tasks(request.task_ids)
+    return {"message": f"Deleted {deleted_count} task(s)."}

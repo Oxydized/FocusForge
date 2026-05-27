@@ -7,7 +7,7 @@ export interface Task {
   title: string;
   due_date: string | null;
   urgency: string;
-  completed: boolean
+  completed: boolean;
 }
 
 @Injectable({
@@ -29,17 +29,26 @@ export class TaskService {
     );
   }
   
-  completeTask(taskId: string): Observable<{ message: string }> {
+  completeTasks(taskIds: string[]): Observable<{ message: string }> {
     return this.http.patch<{ message: string}>(
-      `${this.apiURL}/tasks/${taskId}/complete`,
-      {}
+      `${this.apiURL}/tasks/complete`,
+      { task_ids: taskIds }
     );
   }
 
-  restoreTask(taskId: string): Observable<{ message: string }> {
+  restoreTasks(taskIds: string[]): Observable<{ message: string }> {
     return this.http.patch<{ message: string }>(
-      `${this.apiURL}/tasks/${taskId}/restore`,
-      {}
+      `${this.apiURL}/tasks/restore`,
+      { task_ids: taskIds}
+    );
+  }
+  
+  deleteTasks(taskIds: string[]): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `${this.apiURL}/tasks`,
+      {
+        body: { task_ids: taskIds}
+      }
     );
   }
 }
