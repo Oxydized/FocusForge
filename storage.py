@@ -1,7 +1,13 @@
 import json
+import os
 from pathlib import Path
 
 TASKS_FILE = Path("tasks.json")
+
+def ensure_tasks_file():
+    if not os.path.exists(TASKS_FILE):
+        with open(TASKS_FILE, "w") as file:
+            json.dump([], file)
 
 def save_tasks(tasks):
     """Saves parsed tasks to a JSON file."""
@@ -10,14 +16,13 @@ def save_tasks(tasks):
         json.dump(tasks, file, indent=4)
 
 def load_tasks():
+    ensure_tasks_file()
     """Loads tasks from the JSON file if it exists."""
-
-    if not TASKS_FILE.exists():
-        return[]
     
     try:
         with open(TASKS_FILE, "r") as file:
             return json.load(file)
+        
     except json.JSONDecodeError:
         return[]
     

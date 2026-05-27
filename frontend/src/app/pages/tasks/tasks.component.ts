@@ -152,6 +152,10 @@ export class Tasks implements OnInit {
       return;
     }
 
+    if (!confirm(`Delete ${taskIds.length} selected active taskIds(s)?`)) {
+        return;
+      }
+
     this.taskService.deleteTasks(taskIds).subscribe({
       next: () => {
         this.selectedActiveTaskIds.set([]);
@@ -167,6 +171,10 @@ export class Tasks implements OnInit {
     const taskIds = this.selectedCompletedTaskIds();
 
     if (!taskIds.length) {
+      return;
+    }
+
+    if (!confirm(`Delete ${taskIds.length} selected history task(s)?`)) {
       return;
     }
 

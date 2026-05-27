@@ -1,1 +1,44 @@
-[]
+[
+    {
+        "id": "d434cb1a-0532-43e5-a790-aed4787f9ac3",
+        "title": "Finish angular ui cleanup",
+        "due_date": "Tonight",
+        "urgency": "high",
+        "completed": false
+    },
+    {
+        "id": "a7906fb7-ecfd-4e66-b4c9-2ca337de9ee9",
+        "title": "Review groq api documentation",
+        "due_date": "Tomorrow morning",
+        "urgency": "medium",
+        "completed": false
+    },
+    {
+        "id": "65203f28-72eb-47f6-8779-b5b7a588c01c",
+        "title": "Clean desk",
+        "due_date": "Before Friday",
+        "urgency": "medium",
+        "completed": false
+    },
+    {
+        "id": "47d8f42b-b073-4c34-b0eb-c865211248d0",
+        "title": "Schedule doctor appointment",
+        "due_date": "Next week",
+        "urgency": "low",
+        "completed": false
+    },
+    {
+        "id": "7847fbac-a7c9-4f26-a8f4-8ebdc2068103",
+        "title": "Submit three software engineering applications",
+        "due_date": "Today",
+        "urgency": "high",
+        "completed": false
+    },
+    {
+        "id": "f2c2cc40-a0e7-495b-9846-3ea732df8a0e",
+        "title": "Reorganize github repositories",
+        "due_date": "This weekend",
+        "urgency": "low",
+        "completed": false
+    }
+]

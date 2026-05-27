@@ -25,6 +25,7 @@
 <h2>Active Tasks</h2>
 
 <p>Active task count: {{ activeTasks().length }}</p>
+<p>Selected active tasks: {{ selectedActiveTaskIds().length }}</p>
 
 <ul>
   @for (task of activeTasks(); track task.id) {
@@ -59,6 +60,10 @@
 <h2>Task History</h2>
 
 <p>Completed task count: {{ completedTasks().length }}</p>
+
+<p>
+  Selected history tasks: {{ selectedCompletedTaskIds().length }}
+</p>
 
 <ul>
   @for (task of completedTasks(); track task.id) {
