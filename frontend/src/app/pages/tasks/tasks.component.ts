@@ -13,6 +13,10 @@ export class Tasks implements OnInit {
   selectedActiveTaskIds = signal<string[]>([]);
   selectedCompletedTaskIds = signal<string[]>([]);
   recognition: any;
+  editingTaskId = signal<string | null>(null);
+  editTitle = signal(``);
+  editDueDate = signal(``);
+  editUrgency = signal(`normal`);
 
   constructor(
     private taskService: TaskService,
@@ -187,5 +191,61 @@ export class Tasks implements OnInit {
         console.error('Error deleting completed tasks:', error);
       }
     });
+  }
+
+  startEditingTask(task: Task): void {
+    this.editingTaskId.set(task.id);
+    this.editTitle.set(task.title);
+    this.editDueDate.set(task.due_date || ``);
+    this.editUrgency.set(task.urgency || `normal`);
+  }
+
+  cancelEditingTask(): void {
+    this.editingTaskId.set(null);
+    this.editTitle.set(``);
+    this.editDueDate.set(``);
+    this.editUrgency.set(`normal`);
+  }
+
+  saveEditedTask(): void {
+    const taskId = this.editingTaskId();
+
+    if (!taskId) {
+      return;
+    }
+
+    this.taskService.updateTask(taskId, {
+      title: this.editTitle().trim(),
+      due_date: this.editDueDate().trim() || null,
+      urgency: this.editUrgency()
+    }).subscribe({
+      next: () => {
+        this.cancelEditingTask();
+        this.loadTasks();
+      },
+      error: (error) => {
+        console.error(`Error updating task:`, error);
+      }
+    });
+  }
+
+  canEditSelectedActiveTask = computed(() =>
+    this.selectedActiveTaskIds().length === 1
+  );
+
+  startEditingSelectedTask(): void {
+    const selectedId = this.selectedActiveTaskIds()[0];
+
+    if (!selectedId) {
+      return;
+    }
+
+    const task = this.tasks().find(task => task.id === selectedId);
+
+    if (!task) {
+      return;
+    }
+
+    this.startEditingTask(task);
   }
 }

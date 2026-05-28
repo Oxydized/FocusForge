@@ -2,6 +2,7 @@ import os
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+from storage import update_task
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -36,6 +37,16 @@ class BrainDumpRequest(BaseModel):
 
 class TaskBatchRequest(BaseModel):
     task_ids: list[str]
+
+class TaskUpdateRequest(BaseModel):
+    """
+    Request body for editing an existing task.
+    All fields are optional because the user may only edit one field
+    """
+
+    title: str | None = None
+    due_date: str | None = None
+    urgency: str | None = None
 
 @app.get("/")
 def root():
@@ -94,3 +105,24 @@ def restore_multiple_tasks(request: TaskBatchRequest):
 def delete_multiple_tasks(request: TaskBatchRequest):
     deleted_count = delete_tasks(request.task_ids)
     return {"message": f"Deleted {deleted_count} task(s)."}
+
+@app.patch("/tasks/{task_id}")
+def update_single_task(task_id: str, request: TaskUpdateRequest):
+    """
+    Updates a task. 
+    This endpoint supports editing task details after AI parsing
+    """
+
+    updated_task = update_task(
+        task_id,
+        request.model_dump(exclude_none=True)
+    )
+
+    if updated_task: 
+        return {
+            "message": "Task updated successfully.",
+            "task": updated_task
+        }
+    
+    return {"message": "No matching task ID found."}
+

@@ -30,15 +30,49 @@
 <ul>
   @for (task of activeTasks(); track task.id) {
     <li>
-      <input
-        type="checkbox"
-        [checked]="selectedActiveTaskIds().includes(task.id)"
-        (change)="toggleActiveTaskSelection(task.id)"
-      />
+      @if (editingTaskId() === task.id) {
+        <input
+          type="text"
+          [value]="editTitle()"
+          (input)="editTitle.set($any($event.target).value)"
+          placeholder="Task title"
+        />
 
-      {{ task.title }} |
-      Due: {{ task.due_date || 'No due date' }} |
-      Urgency: {{ task.urgency }}
+        <input
+          type="text"
+          [value]="editDueDate()"
+          (input)="editDueDate.set($any($event.target).value)"
+          placeholder="Due date"
+        />
+
+        <select
+          [value]="editUrgency()"
+          (change)="editUrgency.set($any($event.target).value)"
+        >
+          <option value="normal">Normal</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+
+        <button (click)="saveEditedTask()">
+          Save
+        </button>
+
+        <button (click)="cancelEditingTask()">
+          Cancel
+        </button>
+      } @else {
+        <input
+          type="checkbox"
+          [checked]="selectedActiveTaskIds().includes(task.id)"
+          (change)="toggleActiveTaskSelection(task.id)"
+        />
+
+        {{ task.title }} |
+        Due: {{ task.due_date || 'No due date' }} |
+        Urgency: {{ task.urgency }}
+      }
     </li>
   }
 </ul>
@@ -57,13 +91,17 @@
   Delete Selected Active Tasks
 </button>
 
+<button
+  (click)="startEditingSelectedTask()"
+  [disabled]="!canEditSelectedActiveTask()"
+>
+  Edit Selected Task
+</button>
+
 <h2>Task History</h2>
 
 <p>Completed task count: {{ completedTasks().length }}</p>
-
-<p>
-  Selected history tasks: {{ selectedCompletedTaskIds().length }}
-</p>
+<p>Selected history tasks: {{ selectedCompletedTaskIds().length }}</p>
 
 <ul>
   @for (task of completedTasks(); track task.id) {

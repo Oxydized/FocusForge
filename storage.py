@@ -92,3 +92,27 @@ def delete_tasks(task_ids):
 
     save_tasks(remaining_tasks)
     return deleted_count
+
+def update_task(task_id, updated_fields):
+    """
+    Updates one task by ID. Lets users correct AI-parsed 
+    tasks without deleting and recreating them."""
+
+    tasks = load_tasks()
+
+    for task in tasks:
+        if task.get("id") == task_id:
+            # Only update fields that are allowed to change.
+            if "title" in updated_fields:
+                task["title"] = updated_fields["title"]
+            
+            if "due_date" in updated_fields:
+                task["due_date"] = updated_fields["due_date"]
+
+            if "urgency" in updated_fields:
+                task["urgency"] = updated_fields["urgency"]
+
+            save_tasks(tasks)
+            return task
+        
+    return None

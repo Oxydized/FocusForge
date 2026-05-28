@@ -51,4 +51,12 @@ export class TaskService {
       }
     );
   }
+
+  updateTask(taskId: string, updates: Partial<Pick<Task, `title` | `due_date` | `urgency`>>
+  ): Observable<{ message: string; task: Task }> {
+    return this.http.patch<{ message: string; task: Task }>(
+      `${this.apiURL}/tasks/${taskId}`,
+      updates
+    );
+  }
 }
