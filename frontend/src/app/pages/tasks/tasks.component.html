@@ -45,16 +45,6 @@
           placeholder="Due date"
         />
 
-        <select
-          [value]="editUrgency()"
-          (change)="editUrgency.set($any($event.target).value)"
-        >
-          <option value="normal">Normal</option>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
-
         <button (click)="saveEditedTask()">
           Save
         </button>

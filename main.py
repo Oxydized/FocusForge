@@ -46,7 +46,6 @@ class TaskUpdateRequest(BaseModel):
 
     title: str | None = None
     due_date: str | None = None
-    urgency: str | None = None
 
 @app.get("/")
 def root():

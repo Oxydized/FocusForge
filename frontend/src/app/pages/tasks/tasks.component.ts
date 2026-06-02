@@ -217,7 +217,6 @@ export class Tasks implements OnInit {
     this.taskService.updateTask(taskId, {
       title: this.editTitle().trim(),
       due_date: this.editDueDate().trim() || null,
-      urgency: this.editUrgency()
     }).subscribe({
       next: () => {
         this.cancelEditingTask();

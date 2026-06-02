@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+from task_parser import determine_urgency
 
 TASKS_FILE = Path("tasks.json")
 
@@ -108,9 +109,7 @@ def update_task(task_id, updated_fields):
             
             if "due_date" in updated_fields:
                 task["due_date"] = updated_fields["due_date"]
-
-            if "urgency" in updated_fields:
-                task["urgency"] = updated_fields["urgency"]
+                task["urgency"] = determine_urgency(updated_fields["due_date"])
 
             save_tasks(tasks)
             return task

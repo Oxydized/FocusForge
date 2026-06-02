@@ -1,44 +1,30 @@
 [
     {
-        "id": "e24a5123-4c5a-482b-876f-25a74d03b0b1",
-        "title": "Finish resume",
-        "due_date": "Today",
-        "urgency": "high",
-        "completed": false
-    },
-    {
-        "id": "539a497e-ff18-472c-91c6-f00310871198",
-        "title": "Study python",
-        "due_date": "tonight",
-        "urgency": "high",
-        "completed": false
-    },
-    {
-        "id": "f04845d9-3d0d-4e36-930c-be28865f86ca",
-        "title": "Pay electric bill",
-        "due_date": "today",
-        "urgency": "high",
-        "completed": false
-    },
-    {
-        "id": "24041277-7af0-4022-8128-06f567ac1aeb",
+        "id": "21496ac9-6169-4092-9d25-433c320144d0",
         "title": "Finish my resume",
         "due_date": "friday",
         "urgency": "medium",
         "completed": false
     },
     {
-        "id": "0112ef42-2c2e-49c6-b785-1c89d3f7d690",
-        "title": "Study python",
-        "due_date": "tonight",
+        "id": "68b49177-55a8-4e9b-89f2-7eb9a4f8941b",
+        "title": "Call the doctor",
+        "due_date": "tomorrow",
+        "urgency": "medium",
+        "completed": false
+    },
+    {
+        "id": "7bab313f-728b-4fb2-9e1a-390b2c31f458",
+        "title": "Pay the electric bill",
+        "due_date": "today",
         "urgency": "high",
         "completed": false
     },
     {
-        "id": "0fda9114-f366-4809-bba2-a2a6d424900a",
-        "title": "Pay the electric bill.",
-        "due_date": "today",
-        "urgency": "high",
+        "id": "7e65a54d-65ac-4d52-9af9-b1a6f917241d",
+        "title": "Finish my resume",
+        "due_date": "friday",
+        "urgency": "medium",
         "completed": false
     }
 ]
