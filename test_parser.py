@@ -9,7 +9,7 @@ def print_tasks(text):
     print("\nOUTPUT:")
     for task in tasks:
         print(
-            f"- {task['title']} | Due: {task['due_date']} | Urgency: {task['urgency']}"
+            f"- {task['title']} | Due: {task['due_date']} | Resolved: {task['due_date_resolved']} | Urgency: {task['urgency']}"
         )
 
 print_tasks(
@@ -22,4 +22,8 @@ print_tasks(
 
 print_tasks(
     "Research Docker pros and cons and write notes tomorrow."
+)
+
+print_tasks(
+    "I need to review system design in two weeks and pay the electric bill tomorrow."
 )

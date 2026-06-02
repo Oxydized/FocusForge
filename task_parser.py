@@ -1,5 +1,8 @@
 import re
 import uuid
+import dateparser
+
+from datetime import datetime
 
 DATE_KEYWORDS = [
     "today",
@@ -16,6 +19,18 @@ DATE_KEYWORDS = [
     "next month",
     "this weekend",
     "before",
+]
+
+RELATIVE_DATE_PATTERNS = [
+    r"in \d+ days",
+    r"in \d+ weeks",
+    r"in \d+ months",
+    r"in one day",
+    r"in two days",
+    r"in one week",
+    r"in two weeks",
+    r"in one month",
+    r"in two months",
 ]
 
 TASK_STARTERS = (
@@ -36,10 +51,16 @@ def extract_due_date(text):
     """Finds a simple due date keyword inside a task."""
     lower_text = text.lower()
 
+    for pattern in RELATIVE_DATE_PATTERNS:
+        match = re.search(pattern, lower_text)
+
+        if match:
+            return match.group(0)
+        
     for keyword in DATE_KEYWORDS:
         if keyword in lower_text:
             return keyword
-
+    
     return None
 
 
@@ -109,6 +130,7 @@ def extract_tasks(brain_dump):
             "id": str(uuid.uuid4()),
             "title": title,
             "due_date": due_date,
+            "due_date_resolved": resolve_due_date(due_date),
             "urgency": determine_urgency(due_date),
             "completed": False
         }
@@ -145,3 +167,21 @@ def determine_urgency(due_date):
         return "low"
 
     return "medium"
+
+def resolve_due_date(due_date_text):
+    """Converts a natural-language due date into ISO date string when possible."""
+
+    if not due_date_text:
+        return None
+    
+    parsed_date = dateparser.parse(
+        due_date_text,
+        settings={
+            "PREFER_DATES_FROM": "future"
+        }
+    )
+
+    if not parsed_date:
+        return None
+    
+    return parsed_date.date().isoformat()
