@@ -1,5 +1,7 @@
 import os
+import models
 
+from database import Base, engine
 from fastapi import FastAPI
 from pydantic import BaseModel
 from storage import update_task
@@ -20,6 +22,8 @@ from storage import (
 )
 
 app = FastAPI()
+
+Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,

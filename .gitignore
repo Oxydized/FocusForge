@@ -1,5 +1,18 @@
+# Python
 __pycache__/
+*.pyc
+
+# Virtual Environment
 venv/
+
+# Environment Variables
 .env
 
+# Local test scripts
+test_parser.py
+test_crud.py
+test_db.py
 tasks.json
+
+# Local database
+focusforge.db
