@@ -27,3 +27,7 @@ print_tasks(
 print_tasks(
     "I need to review system design in two weeks and pay the electric bill tomorrow."
 )
+
+print_tasks(
+    "I need to submit my Boeing application today and schedule a dentist appointment next month."
+)

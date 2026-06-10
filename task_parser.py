@@ -126,12 +126,20 @@ def extract_tasks(brain_dump):
         if not title:
             continue
 
+        resolved_date = resolve_due_date(due_date)
+
+        urgency = (
+            determine_urgency_from_resolved_date(resolved_date)
+            if resolved_date
+            else determine_urgency(due_date)
+        )
+
         task = {
             "id": str(uuid.uuid4()),
             "title": title,
             "due_date": due_date,
             "due_date_resolved": resolve_due_date(due_date),
-            "urgency": determine_urgency(due_date),
+            "urgency": determine_urgency_from_resolved_date(resolved_date),
             "completed": False
         }
 
@@ -185,3 +193,22 @@ def resolve_due_date(due_date_text):
         return None
     
     return parsed_date.date().isoformat()
+
+def determine_urgency_from_resolved_date(resolved_date):
+    """Assigns urgency based on how close the resolved due date is."""
+
+    if not resolved_date:
+        return "normal"
+    
+    today = datetime.now().date()
+    due_date = datetime.fromisoformat(resolved_date).date()
+    days_until_due = (due_date - today).days
+
+    if days_until_due <= 0:
+        return "high"
+    
+    if days_until_due <= 3:
+        return "medium"
+    
+    return "low"
+
