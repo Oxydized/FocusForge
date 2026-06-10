@@ -13,6 +13,12 @@ test_parser.py
 test_crud.py
 test_db.py
 tasks.json
+test_migration.py
+cleanup_test_task.py
 
 # Local database
 focusforge.db
+
+# IDE
+.vscode/
+.idea/
