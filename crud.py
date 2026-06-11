@@ -31,6 +31,19 @@ def delete_task(db: Session, task_id: str):
 
     return True
 
+def delete_tasks_by_ids(db: Session, task_id: list[str]):
+    """Deletes multiple task records by ID."""
+
+    deleted_count = (
+        db.query(Task)
+        .filter(Task.id.in_(task_id))
+        .delete(synchronize_session=False)
+    )
+
+    db.commit()
+
+    return deleted_count
+
 def get_task_by_id(db: Session, task_id: str):
     """Returns one task by ID."""
 
@@ -56,3 +69,19 @@ def update_task(db: Session, task_id: str, updated_fields: dict):
     db.refresh(task)
 
     return task
+
+def set_tasks_completed_status(db: Session, task_ids: list[str], completed: bool):
+    """Updates completed status for multiple tasks."""
+
+    updated_count = (
+        db.query(Task)
+        .filter(Task.id.in_(task_ids))
+        .update(
+            {"completed": completed},
+            synchronize_session=False
+        )
+    )
+
+    db.commit()
+
+    return updated_count

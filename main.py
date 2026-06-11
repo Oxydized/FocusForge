@@ -1,7 +1,8 @@
 import os
 import models
 
-from database import Base, engine
+from database import Base, engine, SessionLocal
+from crud import create_task, get_task_by_id, update_task as update_db_task, delete_tasks_by_ids, set_tasks_completed_status
 from fastapi import FastAPI
 from pydantic import BaseModel
 from storage import update_task
@@ -72,6 +73,20 @@ def parse_tasks(request: BrainDumpRequest):
 
     save_tasks(all_tasks)
 
+    db = SessionLocal()
+
+    try:
+        for task in new_tasks:
+            existing_tasks = get_task_by_id(db, task["id"])
+
+            if existing_tasks:
+                continue
+
+            create_task(db, task)
+
+    finally:
+        db.close()
+
     return {
         "message": f"Saved {len(new_tasks)} new task(s).",
         "tasks": new_tasks,
@@ -97,16 +112,43 @@ def get_high_priority_tasks():
 @app.patch("/tasks/complete")
 def complete_multiple_tasks(request: TaskBatchRequest):
     updated_count = complete_tasks(request.task_ids)
+
+    db = SessionLocal()
+
+    try:
+        set_tasks_completed_status(db, request.task_ids, True)
+
+    finally:
+        db.close()
+
     return {"message": f"Completed {updated_count} task(s)."}
 
 @app.patch("/tasks/restore")
 def restore_multiple_tasks(request: TaskBatchRequest):
     updated_count = restore_tasks(request.task_ids)
+
+    db = SessionLocal()
+
+    try:
+        set_tasks_completed_status(db, request.task_ids, False)
+
+    finally:
+        db.close()
+
     return {"message": f"Restored {updated_count} task(s)."}
 
 @app.delete("/tasks")
 def delete_multiple_tasks(request: TaskBatchRequest):
     deleted_count = delete_tasks(request.task_ids)
+
+    db = SessionLocal()
+
+    try:
+        delete_tasks_by_ids(db, request.task_ids)
+
+    finally:
+        db.close()
+
     return {"message": f"Deleted {deleted_count} task(s)."}
 
 @app.patch("/tasks/{task_id}")
@@ -116,12 +158,24 @@ def update_single_task(task_id: str, request: TaskUpdateRequest):
     This endpoint supports editing task details after AI parsing
     """
 
+    updated_fields = request.model_dump(exclude_none=True)
+
+    # First update the JSON storage
     updated_task = update_task(
         task_id,
-        request.model_dump(exclude_none=True)
+        updated_fields
     )
 
     if updated_task: 
+        db = SessionLocal()
+
+        try:
+            # Then mirror the same updated task in SQLite
+            update_db_task(db, task_id, updated_task)
+
+        finally:
+            db.close()
+
         return {
             "message": "Task updated successfully.",
             "task": updated_task
