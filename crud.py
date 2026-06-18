@@ -85,3 +85,30 @@ def set_tasks_completed_status(db: Session, task_ids: list[str], completed: bool
     db.commit()
 
     return updated_count
+
+def get_completed_tasks(db: Session):
+    """Returns completed tasks."""
+
+    return (
+        db.query(Task)
+        .filter(Task.completed == True)
+        .all()
+    )
+
+def get_incomplete_tasks(db: Session):
+    """Returns active tasks."""
+
+    return (
+        db.query(Task)
+        .filter(Task.completed == False)
+        .all()
+    )
+
+def get_high_urgency_tasks(db: Session):
+    """Returns high urgency tasks."""
+
+    return (
+        db.query(Task)
+        .filter(Task.urgency == "high")
+        .all()
+    )

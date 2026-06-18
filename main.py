@@ -2,24 +2,34 @@ import os
 import models
 
 from database import Base, engine, SessionLocal
-from crud import create_task, get_task_by_id, update_task as update_db_task, delete_tasks_by_ids, set_tasks_completed_status
+from crud import (
+    create_task,
+    get_task_by_id,
+    update_task as update_db_task,
+    delete_tasks_by_ids,
+    set_tasks_completed_status,
+
+    get_tasks as get_db_tasks,
+    get_completed_tasks as get_db_completed_tasks,
+    get_incomplete_tasks as get_db_incomplete_tasks,
+    get_high_urgency_tasks as get_db_high_priority_tasks
+)
 from fastapi import FastAPI
 from pydantic import BaseModel
-from storage import update_task
 from fastapi.middleware.cors import CORSMiddleware
 
 
 from ai_parser import extract_tasks_with_ai
-from storage import complete_tasks, restore_tasks, delete_tasks
 from task_parser import extract_tasks
 from ai_parser import extract_tasks_with_ai
 from storage import (
     load_tasks,
     save_tasks,
     mark_task_completed,
-    get_incomplete_tasks,
-    get_completed_tasks,
-    get_high_urgency_tasks,
+    complete_tasks, 
+    restore_tasks, 
+    delete_tasks,
+    update_task
 )
 
 app = FastAPI()
@@ -95,19 +105,55 @@ def parse_tasks(request: BrainDumpRequest):
 
 @app.get("/tasks")
 def get_tasks():
-    return {"tasks": load_tasks()}
+
+    db = SessionLocal()
+
+    try:
+        tasks = get_db_tasks(db)
+
+        return {"tasks": tasks}
+    
+    finally:
+        db.close()
 
 @app.get("/tasks/active")
 def get_active_tasks():
-    return {"tasks": get_incomplete_tasks()}
+
+    db = SessionLocal()
+
+    try:
+        tasks = get_db_incomplete_tasks(db)
+
+        return {"tasks": tasks}
+    
+    finally:
+        db.close()
 
 @app.get("/tasks/completed")
 def get_completed_tasks_route():
-    return {"tasks": get_completed_tasks()}
+
+    db = SessionLocal()
+
+    try:
+        tasks = get_db_completed_tasks(db)
+
+        return {"tasks": tasks}
+    
+    finally:
+        db.close()
 
 @app.get("/tasks/high-priority")
 def get_high_priority_tasks():
-    return {"tasks": get_high_urgency_tasks()}
+
+    db = SessionLocal()
+
+    try:
+        tasks = get_high_priority_tasks(db)
+
+        return {"tasks": tasks}
+    
+    finally:
+        db.close()
 
 @app.patch("/tasks/complete")
 def complete_multiple_tasks(request: TaskBatchRequest):
